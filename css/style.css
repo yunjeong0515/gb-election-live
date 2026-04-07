@@ -1,0 +1,41 @@
+@font-face {
+  font-family: 'AONE';
+  src: url('../font/AONE(OTF).otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'EF_jejudoldam';
+  src: url('../font/EF_jejudoldam.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'EF_jejudoldam', sans-serif;
+}
+.font_aone {
+  font-family: 'AONE', sans-serif;
+}
+img,
+.svg{
+  display: block;
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
