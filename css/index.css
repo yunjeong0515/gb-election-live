@@ -1,0 +1,357 @@
+.body {
+  background: url(../images/bg.jpg) no-repeat center center / cover;
+}
+.header {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2% 5%;
+}
+.header .live-wrap {
+  display: flex;
+  flex-direction: column;
+  width: 12%;
+  margin-top: 2%;
+}
+.header .live-wrap .live-icon {
+  width: 100%;
+  margin-bottom: 5%;
+}
+.header .live-wrap .live-icon img {
+  width: 100%;
+  object-fit: contain;
+}
+.header .live-wrap .date {
+  font-size: 1.8vw;
+  white-space: nowrap;
+}
+.header .title {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 45%;
+}
+.header .title img {
+  width: 100%;
+  object-fit: contain;
+}
+
+.vote-wrap {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 100%;
+  height: 80vh;
+}
+.vote-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10%;
+  margin-bottom: 1%;
+}
+.vote-main .vote-character {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 40%;
+}
+.vote-main .vote-character.vote-a {
+  justify-content: flex-end;
+}
+.vote-main .vote-character.vote-b {
+  justify-content: flex-start;
+}
+.vote-main .vote-character .character-img {
+  position: relative;
+  width: 65%;
+}
+.vote-main .vote-character .character-img img {
+  width: 100%;
+  object-fit: contain;
+}
+.vote-main .vote-character .character-img-winning img.character {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  animation: softBounce 1s ease-in-out infinite;
+  transform-origin: center bottom;
+}
+.vote-main .vote-character .character-img.character-img-default {
+  animation: sway 1.5s ease-in-out infinite alternate;
+  transform-origin: center bottom;
+}
+.vote-main .vote-character.vote-b .character-img.character-img-default {
+  animation-delay: 0.5s;
+}
+
+.vote-main .vote-character .lead-icon {
+  position: absolute;
+  bottom: 0;
+  width: 50%;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: 0.3s;
+  animation: popLoop 1s ease-in-out infinite;
+}
+.vote-main .vote-character .lead-icon.active {
+  opacity: 1;
+  transform: scale(1);
+}
+.vote-main .vote-character .lead-icon img {
+  width: 100%;
+  object-fit: contain;
+}
+.vote-main .vote-character.vote-a .lead-icon {
+  left: 0;
+}
+
+.vote-main .vote-character .winning-text {
+  opacity: 0;
+  transform-origin: bottom center;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform-origin: center bottom;
+}
+.vote-main .vote-character .winning-text.text-show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.vote-main .vote-character .winning-text img {
+  width: 100%;
+  object-fit: contain;
+}
+.vote-main .vote-character.vote-a .winning-text {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 47%;
+  transform: translate(80%, 0);
+}
+.vote-main .vote-character.vote-a .winning-text.text-show  {
+  animation: floatyTiltA 1.4s ease-in-out infinite;
+}
+.vote-main .vote-character.vote-b .winning-text {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 52%;
+  z-index: -1;
+  transform: translate(-65%, 0);
+}
+.vote-main .vote-character.vote-b .winning-text.text-show  {
+  animation: floatyTiltB 1.4s ease-in-out infinite;
+}
+.vote-main .vote-character .default-text {
+  position: absolute;
+  opacity: 0;
+  transform: scale(0.8) translateY(5%);
+  transform-origin: bottom center;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  animation: wiggle 1.4s ease-in-out infinite;
+}
+.vote-main .vote-character .default-text.text-show {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+.vote-main .vote-character .default-text img {
+  width: 100%;
+  object-fit: contain;
+}
+.vote-main .vote-character.vote-a .default-text.text01 {
+  left: 0;
+  top: 20%;
+  width: 45%;
+  transform: translate(30%, 0);
+}
+.vote-main .vote-character.vote-a .default-text.text02 {
+  left: 0;
+  top: 40%;
+  width: 37%;
+  transform: translate(30%, 0);
+}
+.vote-main .vote-character.vote-a .default-text.text03 {
+  left: 0;
+  top: 24%;
+  width: 55%;
+  transform: translate(10%, 0);
+}
+.vote-main .vote-character.vote-a .default-text.text04 {
+  left: 0;
+  bottom: 10%;
+  width: 45%;
+  transform: translate(20%, 0);
+}
+.vote-main .vote-character.vote-b .default-text.text01 {
+  right: 0;
+  bottom: 0%;
+  width: 45%;
+  transform: translate(-40%, 0);
+}
+.vote-main .vote-character.vote-b .default-text.text02 {
+  right: 0;
+  top: 30%;
+  width: 35%;
+  transform: translate(-40%, 0);
+}
+.vote-main .vote-character.vote-b .default-text.text03 {
+  right: 0;
+  bottom: 5%;
+  width: 53%;
+  transform: translate(-20%, 0);
+}
+.vote-main .vote-character.vote-b .default-text.text04 {
+  right: 0;
+  top: 35%;
+  width: 45%;
+  transform: translate(-20%, 0);
+}
+
+.vote-main .vote-character.vote-b .lead-icon {
+  right: 0;
+}
+.vote-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1%;
+  width: 100%;
+  padding: 0 5% 3% 5%;
+}
+.vote-bar-wrap .vote-label {
+  width: 16%;
+}
+.vote-bar-wrap .vote-label img {
+  width: 100%;
+  object-fit: contain;
+}
+.vote-bar-wrap  .vote-bar {
+  width: 100%;
+  height: 60%;
+}
+.vote-bar-wrap  .vote-bar .vote-progress {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  border: 0.3rem solid #000;
+  border-radius: 4rem;
+  overflow: hidden;
+}
+.vote-bar-wrap  .vote-bar .vote-progress::after {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 0.3rem;
+  height: 100%;
+  background-color: #000;
+  content: "";
+}
+.progress-a {
+  position: absolute;
+  transform: translate(-100%, 0);
+  left: 50%;
+  top: 0;
+  height: 100%;
+  background-color: #FFF59A;
+  width: 40%;
+  border-left: 0.3rem solid #000;
+  transform-origin: right;
+}
+
+.progress-b {
+  position: absolute;
+  transform: translate(100%, 0);
+  right: 50%;
+  top: 0;
+  height: 100%;
+  background-color: #F9E1E1;
+  width: 50%;
+  border-right: 0.3rem solid #000;
+  transform-origin: left;
+}
+.progress-a,
+.progress-b {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.8s ease;
+}
+.progress-a.full,
+.progress-b.full {
+  border: none;
+}
+.progress-a span,
+.progress-b span {
+  font-size: 2rem;
+}
+@keyframes sway {
+  0% {
+    transform: translateX(0%) rotate(0deg);
+  }
+  25% {
+    transform: translateX(1%) rotate(2deg);
+  }
+  50% {
+    transform: translateX(1%) rotate(-2deg);
+  }
+  75% {
+    transform: translateX(-1%) rotate(1deg);
+  }
+  100% {
+    transform: translateX(-1%) rotate(-1deg);
+  }
+}
+
+@keyframes softBounce {
+  0% {
+    transform: translateY(0) translateX(0) scale(1) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-2%) translateX(-0.7%) scale(1.05) rotate(-1.5deg);
+  }
+  50% {
+    transform: translateY(0) translateX(0.7%) scale(0.98) rotate(1.5deg);
+  }
+  75% {
+    transform: translateY(-1%) translateX(-0.3%) scale(1.02) rotate(-0.5deg);
+  }
+  100% {
+    transform: translateY(0) translateX(0) scale(1) rotate(0deg);
+  }
+}
+@keyframes popLoop {
+  0%   { transform: scale(1); }
+  25%  { transform: scale(1.1); }
+  50%  { transform: scale(0.98); }
+  75%  { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+@keyframes wiggle {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(-2deg); }
+  50%  { transform: rotate(2deg); }
+  75%  { transform: rotate(-1deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes floatyTiltA {
+  0%   { transform: translateX(80%) rotate(0deg); }
+  25%  { transform: translateX(80%) rotate(-2deg); }
+  50%  { transform: translateX(80%) rotate(2deg); }
+  75%  { transform: translateX(80%) rotate(-1deg); }
+  100% { transform: translateX(80%) rotate(0deg); }
+}
+
+@keyframes floatyTiltB {
+  0%   { transform: translateX(-65%) rotate(0deg); }
+  25%  { transform: translateX(-65%) rotate(-2deg); }
+  50%  { transform: translateX(-65%) rotate(2deg); }
+  75%  { transform: translateX(-65%) rotate(-1deg); }
+  100% { transform: translateX(-65%) rotate(0deg); }
+}
