@@ -5,6 +5,12 @@ const USE_API = window.__USE_API ?? true;
 const POLL_INTERVAL = 3000;
 const SIM_INTERVAL = 1500;
 
+// ===== 날짜 =====
+const DAYS = ["일", "월", "화", "수", "목", "금", "토"];
+const now = new Date();
+document.getElementById("current-date").textContent =
+  `${now.getMonth() + 1}월 ${now.getDate()}일 (${DAYS[now.getDay()]})`;
+
 // ===== 상태 =====
 let percentA = 50;
 let percentB = 50;
