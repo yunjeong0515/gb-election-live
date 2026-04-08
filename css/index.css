@@ -423,34 +423,27 @@
 }
 .sakura {
   position: absolute;
-  top: -10%; /* 시작 위치 고정 */
+  top: -10%;
   width: 40px;
-  opacity: 0.8;
-  /* will-change: 브라우저에게 이 요소가 변할 것이라고 미리 알려주어
-     GPU 가속을 강제하고 부드럽게 만듭니다.
-  */
+  opacity: 1;
   will-change: transform;
   animation: sakuraFall 10s linear infinite;
 }
 
 @keyframes sakuraFall {
   0% {
-    /* 초기 위치와 회전 */
     transform: translateY(0) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
   }
   50% {
-    /* 중간 지점에서 살짝 좌우로 틀어줌 (스윙 효과 통합) */
     transform: translateY(55vh) translateX(40px) rotateX(180deg) rotateY(180deg)
       rotateZ(90deg);
   }
   100% {
-    /* 마지막 위치: 0%와 부드럽게 이어지도록 한 바퀴 회전 값을 설정 */
     transform: translateY(115vh) translateX(0px) rotateX(360deg) rotateY(360deg)
       rotateZ(180deg);
   }
 }
 
-/* 각 꽃잎마다 속도를 다르게 해서 겹치는 느낌 방지 */
 .sakura:nth-child(1) {
   left: 10%;
   animation-duration: 8s;
