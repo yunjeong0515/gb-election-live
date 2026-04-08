@@ -1,0 +1,270 @@
+openapi: 3.0.0
+paths:
+  /api:
+    get:
+      description: 서버가 정상 동작 중인지 확인합니다.
+      operationId: AppController_getHello
+      parameters: []
+      responses:
+        "200":
+          description: 서버 정상 동작 중
+      summary: 서버 상태 확인
+      tags:
+        - 상태
+  /api/game/sessions:
+    post:
+      description: Game Start 버튼 클릭 시 호출. 새로운 게임 세션을 생성하고 UUID 형태의 세션 ID를 반환합니다. 이 세션
+        ID를 이후 모든 투표/결과 API 호출에 사용하세요.
+      operationId: GameController_createSession
+      parameters: []
+      responses:
+        "201":
+          description: 세션 생성 성공
+          content:
+            application/json:
+              schema:
+                example:
+                  sessionId: 550e8400-e29b-41d4-a716-446655440000
+      summary: 새 게임 세션 생성
+      tags:
+        - 게임
+  /api/game/sessions/{sessionId}/votes:
+    post:
+      description: 각 질문(1~5)에 대해 선택한 후보를 제출합니다. 질문당 한 번만 투표할 수 있으며, 5개 질문 모두 투표하면 세션이
+        자동 완료됩니다.
+      operationId: GameController_submitVote
+      parameters:
+        - name: sessionId
+          required: true
+          in: path
+          description: 게임 세션 UUID — 먼저 POST /api/game/sessions 로 세션을 생성한 후 반환된 sessionId를
+            사용하세요
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmitVoteDto"
+            examples:
+              example1:
+                summary: 1번 질문에 쥐순이 투표
+                value:
+                  questionNumber: 1
+                  selectedCandidate: JJISUNI
+              example2:
+                summary: 2번 질문에 또라 투표
+                value:
+                  questionNumber: 2
+                  selectedCandidate: TTORA
+      responses:
+        "201":
+          description: 투표 성공
+          content:
+            application/json:
+              schema:
+                example:
+                  message: 투표가 성공적으로 제출되었습니다
+        "400":
+          description: 유효성 검증 실패 또는 이미 완료된 세션
+        "404":
+          description: 세션을 찾을 수 없음
+        "409":
+          description: 해당 질문에 이미 투표함
+      summary: 질문에 대한 투표 제출
+      tags:
+        - 게임
+  /api/game/sessions/{sessionId}/result:
+    get:
+      description: 5개 질문 모두 투표 완료 후 호출. 사용자가 어떤 후보에 더 많이 투표했는지 결과를 반환합니다.
+      operationId: GameController_getSessionResult
+      parameters:
+        - name: sessionId
+          required: true
+          in: path
+          description: 게임 세션 UUID — 먼저 POST /api/game/sessions 로 세션을 생성한 후 반환된 sessionId를
+            사용하세요
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 결과 조회 성공
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SessionResultDto"
+        "400":
+          description: 투표가 아직 완료되지 않음 (5개 미만)
+        "404":
+          description: 세션을 찾을 수 없음
+      summary: 개인 투표 결과 조회
+      tags:
+        - 게임
+  /api/game/stats:
+    get:
+      description: 전체 참가자의 누적 투표 통계입니다. 실시간 개표 화면에서 N초 간격으로 폴링하세요. 총 세션 수, 총 투표 수, 후보별
+        득표수와 득표율을 제공합니다.
+      operationId: StatsController_getTally
+      parameters: []
+      responses:
+        "200":
+          description: 통계 조회 성공
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TallyDto"
+      summary: 실시간 개표 현황
+      tags:
+        - 통계
+  /api/admin/reset:
+    delete:
+      description: 모든 게임 세션과 투표 데이터를 완전히 삭제합니다. 행사 시작 전 또는 데이터 리셋이 필요할 때 사용하세요. 인증 없이
+        호출 가능합니다.
+      operationId: AdminController_reset
+      parameters: []
+      responses:
+        "200":
+          description: 초기화 성공
+          content:
+            application/json:
+              schema:
+                example:
+                  message: 모든 투표 데이터가 초기화되었습니다
+      summary: 전체 데이터 초기화
+      tags:
+        - 관리자
+info:
+  title: NEC 투표 게임 API
+  description: |-
+    ## 게임 플로우
+    1. `POST /api/game/sessions` → 세션 ID 발급 (Game Start 버튼 클릭 시)
+    2. `POST /api/game/sessions/{sessionId}/votes` × 5회 (질문 1~5번 각각 투표)
+    3. `GET /api/game/sessions/{sessionId}/result` → 개인 결과 확인
+
+    ## 실시간 개표
+    - `GET /api/game/stats` 를 N초 간격으로 폴링하여 실시간 개표 현황 표시
+
+    ## 후보 정보
+    - `JJISUNI` (쥐순이/쥐 캐릭터)
+    - `TTORA` (또라/토끼 캐릭터)
+
+    ## 질문 목록 (프론트엔드 하드코딩)
+    1. "탕수육을 먹을 때 당신은?"
+    2. "치킨을 먹을 때 당신은?"
+    3. "우산이 없는데 비가 내린다면 당신은?"
+    4. "여행을 간다면 당신은?"
+    5. "문자 보냈는데 상대가 안 읽으면 당신은?"
+  version: "1.0"
+  contact: {}
+tags: []
+servers: []
+components:
+  schemas:
+    SubmitVoteDto:
+      type: object
+      properties:
+        questionNumber:
+          type: number
+          minimum: 1
+          maximum: 5
+          description: 투표할 질문 번호 (1~5)
+          example: 1
+        selectedCandidate:
+          enum:
+            - JJISUNI
+            - TTORA
+          type: string
+          description: 선택한 후보. JJISUNI(쥐순이) 또는 TTORA(또라)
+          example: JJISUNI
+      required:
+        - questionNumber
+        - selectedCandidate
+    VoteItem:
+      type: object
+      properties:
+        questionNumber:
+          type: number
+          description: 질문 번호
+          example: 1
+        selectedCandidate:
+          enum:
+            - JJISUNI
+            - TTORA
+          type: string
+          description: 선택한 후보
+          example: JJISUNI
+      required:
+        - questionNumber
+        - selectedCandidate
+    SessionResultDto:
+      type: object
+      properties:
+        sessionId:
+          type: string
+          description: 게임 세션 UUID
+          example: 550e8400-e29b-41d4-a716-446655440000
+        votes:
+          description: 5개 질문에 대한 투표 목록
+          type: array
+          items:
+            $ref: "#/components/schemas/VoteItem"
+        winner:
+          enum:
+            - JJISUNI
+            - TTORA
+          type: string
+          description: 최다 득표 후보
+          example: JJISUNI
+        jjisuniCount:
+          type: number
+          description: 쥐순이 득표 수
+          example: 3
+        ttoraCount:
+          type: number
+          description: 또라 득표 수
+          example: 2
+      required:
+        - sessionId
+        - votes
+        - winner
+        - jjisuniCount
+        - ttoraCount
+    CandidateTally:
+      type: object
+      properties:
+        votes:
+          type: number
+          description: 득표 수
+          example: 120
+        percentage:
+          type: number
+          description: 득표율 (%)
+          example: 57.14
+      required:
+        - votes
+        - percentage
+    TallyDto:
+      type: object
+      properties:
+        totalSessions:
+          type: number
+          description: 완료된 총 게임 세션 수
+          example: 42
+        totalVotes:
+          type: number
+          description: 총 투표 수
+          example: 210
+        jjisuni:
+          description: 쥐순이(JJISUNI) 득표 현황
+          allOf:
+            - $ref: "#/components/schemas/CandidateTally"
+        ttora:
+          description: 또라(TTORA) 득표 현황
+          allOf:
+            - $ref: "#/components/schemas/CandidateTally"
+      required:
+        - totalSessions
+        - totalVotes
+        - jjisuni
+        - ttora
