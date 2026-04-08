@@ -1,5 +1,15 @@
 .body {
-  background: url(../images/bg.jpg) no-repeat center center / cover;
+  position: relative;
+}
+.body::before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -100;
+  background: url(../images/bg.jpeg) no-repeat center center / cover;
+  content: "";
 }
 .header {
   position: relative;
@@ -134,7 +144,7 @@
   width: 47%;
   transform: translate(80%, 0);
 }
-.vote-main .vote-character.vote-a .winning-text.text-show  {
+.vote-main .vote-character.vote-a .winning-text.text-show {
   animation: floatyTiltA 1.4s ease-in-out infinite;
 }
 .vote-main .vote-character.vote-b .winning-text {
@@ -145,7 +155,7 @@
   z-index: -1;
   transform: translate(-65%, 0);
 }
-.vote-main .vote-character.vote-b .winning-text.text-show  {
+.vote-main .vote-character.vote-b .winning-text.text-show {
   animation: floatyTiltB 1.4s ease-in-out infinite;
 }
 .vote-main .vote-character .default-text {
@@ -230,11 +240,11 @@
   width: 100%;
   object-fit: contain;
 }
-.vote-bar-wrap  .vote-bar {
+.vote-bar-wrap .vote-bar {
   width: 100%;
   height: 60%;
 }
-.vote-bar-wrap  .vote-bar .vote-progress {
+.vote-bar-wrap .vote-bar .vote-progress {
   position: relative;
   width: 100%;
   height: 100%;
@@ -243,7 +253,7 @@
   border-radius: 4rem;
   overflow: hidden;
 }
-.vote-bar-wrap  .vote-bar .vote-progress::after {
+.vote-bar-wrap .vote-bar .vote-progress::after {
   position: absolute;
   left: 50%;
   top: 0;
@@ -258,7 +268,7 @@
   left: 50%;
   top: 0;
   height: 100%;
-  background-color: #FFF59A;
+  background-color: #fff59a;
   width: 40%;
   border-left: 0.3rem solid #000;
   transform-origin: right;
@@ -270,7 +280,7 @@
   right: 50%;
   top: 0;
   height: 100%;
-  background-color: #F9E1E1;
+  background-color: #f9e1e1;
   width: 50%;
   border-right: 0.3rem solid #000;
   transform-origin: left;
@@ -329,32 +339,139 @@
   }
 }
 @keyframes popLoop {
-  0%   { transform: scale(1); }
-  25%  { transform: scale(1.1); }
-  50%  { transform: scale(0.98); }
-  75%  { transform: scale(1.02); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(0.98);
+  }
+  75% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 @keyframes wiggle {
-  0%   { transform: rotate(0deg); }
-  25%  { transform: rotate(-2deg); }
-  50%  { transform: rotate(2deg); }
-  75%  { transform: rotate(-1deg); }
-  100% { transform: rotate(0deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+  75% {
+    transform: rotate(-1deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 @keyframes floatyTiltA {
-  0%   { transform: translateX(80%) rotate(0deg); }
-  25%  { transform: translateX(80%) rotate(-2deg); }
-  50%  { transform: translateX(80%) rotate(2deg); }
-  75%  { transform: translateX(80%) rotate(-1deg); }
-  100% { transform: translateX(80%) rotate(0deg); }
+  0% {
+    transform: translateX(80%) rotate(0deg);
+  }
+  25% {
+    transform: translateX(80%) rotate(-2deg);
+  }
+  50% {
+    transform: translateX(80%) rotate(2deg);
+  }
+  75% {
+    transform: translateX(80%) rotate(-1deg);
+  }
+  100% {
+    transform: translateX(80%) rotate(0deg);
+  }
 }
 
 @keyframes floatyTiltB {
-  0%   { transform: translateX(-65%) rotate(0deg); }
-  25%  { transform: translateX(-65%) rotate(-2deg); }
-  50%  { transform: translateX(-65%) rotate(2deg); }
-  75%  { transform: translateX(-65%) rotate(-1deg); }
-  100% { transform: translateX(-65%) rotate(0deg); }
+  0% {
+    transform: translateX(-65%) rotate(0deg);
+  }
+  25% {
+    transform: translateX(-65%) rotate(-2deg);
+  }
+  50% {
+    transform: translateX(-65%) rotate(2deg);
+  }
+  75% {
+    transform: translateX(-65%) rotate(-1deg);
+  }
+  100% {
+    transform: translateX(-65%) rotate(0deg);
+  }
+}
+
+/* 벚꽃 컨테이너 */
+.sakura-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -40;
+  perspective: 1000px;
+  overflow: hidden;
+}
+.sakura {
+  position: absolute;
+  top: -10%; /* 시작 위치 고정 */
+  width: 40px;
+  opacity: 0.8;
+  /* will-change: 브라우저에게 이 요소가 변할 것이라고 미리 알려주어
+     GPU 가속을 강제하고 부드럽게 만듭니다.
+  */
+  will-change: transform;
+  animation: sakuraFall 10s linear infinite;
+}
+
+@keyframes sakuraFall {
+  0% {
+    /* 초기 위치와 회전 */
+    transform: translateY(0) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+  50% {
+    /* 중간 지점에서 살짝 좌우로 틀어줌 (스윙 효과 통합) */
+    transform: translateY(55vh) translateX(40px) rotateX(180deg) rotateY(180deg)
+      rotateZ(90deg);
+  }
+  100% {
+    /* 마지막 위치: 0%와 부드럽게 이어지도록 한 바퀴 회전 값을 설정 */
+    transform: translateY(115vh) translateX(0px) rotateX(360deg) rotateY(360deg)
+      rotateZ(180deg);
+  }
+}
+
+/* 각 꽃잎마다 속도를 다르게 해서 겹치는 느낌 방지 */
+.sakura:nth-child(1) {
+  left: 10%;
+  animation-duration: 8s;
+}
+.sakura:nth-child(2) {
+  left: 30%;
+  animation-duration: 12s;
+  animation-delay: -2s;
+}
+.sakura:nth-child(3) {
+  left: 50%;
+  animation-duration: 10s;
+  animation-delay: -4s;
+}
+.sakura:nth-child(4) {
+  left: 75%;
+  animation-duration: 14s;
+  animation-delay: -1s;
+}
+.sakura:nth-child(5) {
+  left: 90%;
+  animation-duration: 9s;
+  animation-delay: -5s;
 }
